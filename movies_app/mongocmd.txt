@@ -1,0 +1,23 @@
+> db.movies.find({"movie_name": {$eq: "North West Frontier"}}).pretty()
+
+> db.movies.find({"movie_name": {$ne: "North West Frontier"}}).pretty()
+
+> db.movies.find({"buget": {$gte: "$10000"}}).pretty()
+
+> db.movies.find({"buget": {$lte: "$10000"}}).pretty()
+
+> db.movies.find($and: ["production_year": {$gt: 2000},{"buget": {$gte: "$10000"}}]).pretty()
+
+> db.movies.find($or: ["production_year": {$gt: 2000},{"buget": {$gte: "$10000"}}]).pretty()
+
+> db.movies.find($nor: ["production_year": {$gt: 2000},{"buget": {$gte: "$10000"}}]).pretty()
+
+> db.movies.find($not: ["production_year": {$gt: 2000},{"buget": {$gte: "$10000"}}])
+
+> db.movies.find("production_year": {$in: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010]}).pretty()
+
+> db.movies.find().sort("production_year": -1,"movie_name": -1).pretty()
+
+> db.movies.find().skip(10).limit(5).pretty()
+
+remove movies genre from the first 10 movies in query 10
