@@ -1,0 +1,29 @@
+> db.users.insertMany([{"first_name": "Shivam","last_name":"Pandey","gender": "Male","ip_address":"129.11.1234","age":24},{"first_name": "Akarsh","last_name":"Pandey","gender": "Male","ip_address":"126.11.4334","age":32},{"first_name": "Pankaj","last_name":"Tiwari","gender": "Male","ip_address":"121.14.1244","age":23}])
+
+> db.users.insert({"first_name": "Abhishek","last_name":"Pathak","gender": "Male","ip_address":"129.14.1004","age":23}) 
+
+> db.users.insert({"first_name": "Ankit","last_name":"Pathak","gender": "Male","ip_address":"129.14.1004","age":22})
+
+> db.users.insert({"first_name": "Gyanandra","last_name":"Singh","gender": "Male","ip_address":"229.14.2004","age":23})
+
+> db.users.insert({"first_name": "Kumar","last_name":"Shubham","gender": "Male","ip_address":"129.14.1034","age":23})
+
+> db.users.insert({"first_name": "Aryan","last_name":"Rao","gender": "Male","ip_address":"329.14.1004","age":24})
+
+> db.users.insert({"first_name": "Abhishek","last_name":"Pathak","gender": "Male","ip_address":"129.14.1004","age":23})
+
+> db.users.find().pretty()
+
+> db.users.findOne({}).pretty()
+
+> db.users.findOne({"_id" : ObjectId("61a66aeebf63b0dcf3c3b97a")})
+
+> db.users.update({"_id" : ObjectId("61a66aeebf63b0dcf3c3b97a")},{$set: {"gender": "Female","age": 21}})
+
+> db.users.updateMany({"gender": "Male")},{$set: {"quality": "Hero"}})
+
+> db.users.remove({"_id" : ObjectId("61a66aeebf63b0dcf3c3b97a")})
+
+> db.users.deleteOne({"gender": "Female"})
+
+> db.users.delete({"gender": "Female"})
