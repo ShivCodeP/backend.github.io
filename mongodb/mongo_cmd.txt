@@ -27,3 +27,5 @@
 > db.users.deleteOne({"gender": "Female"})
 
 > db.users.delete({"gender": "Female"})
+
+> db.dropDatabase()
