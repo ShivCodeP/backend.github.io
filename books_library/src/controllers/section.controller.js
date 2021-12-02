@@ -7,9 +7,56 @@ const router = express.Router();
 router.get("/", async (req, res) => {
  
     try {
-        const section = await Section.find().lean().exec();
+        const sections = await Section.find().populate("book_ids").lean().exec();
     
-        return res.send(section)
+        return res.send(sections)
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+    
+})
+router.get("/notcheckout/", async (req, res) => {
+ 
+    try {
+        const sections = await Section.find().populate("book_ids").lean().exec();
+
+        let books = [];
+
+        sections.forEach((section) => {
+            
+            section.book_ids.forEach((book) => {
+                if(book.checkout == false) {
+                    console.log(book)
+                    books.push(book);
+                }
+            })
+        })
+    
+        return res.send(books)
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+    
+})
+
+router.get("/:id", async (req, res) => {
+ 
+    try {
+        const sections = await Section.find().populate("book_ids").lean().exec();
+
+        const books = [];
+
+        sections.forEach((section) => {
+            section.book_ids.forEach((book) => {
+                 book.author_ids.forEach((author) => {
+                     if(author == req.params.id) {
+                         books.push(book)
+                     }
+                 })
+            })            
+        })
+    
+        return res.send(books)
     } catch (e) {
         return res.status(500).json({ message: e.message, status: "Failed" });
     }

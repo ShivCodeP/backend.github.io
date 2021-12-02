@@ -28,6 +28,18 @@ router.get("/checkout", async (req, res) => {
     }
 })
 
+//find the books that are not checkout
+
+router.get("/notcheckout", async (req, res) => {
+    try {
+        const books = await Book.find({"checkout": {$eq: false}}).lean().exec();
+
+        return res.send(books);
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
 //find books written by an author
 
 router.get("/:id", async (req, res) => {
@@ -36,7 +48,7 @@ router.get("/:id", async (req, res) => {
 
         let result = [];
 
-        const ans = books.forEach((book) => {
+        books.forEach((book) => {
 
             book.author_ids.forEach((author) => {
                 
