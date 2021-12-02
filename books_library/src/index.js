@@ -1,11 +1,20 @@
 const express = require("express");
 
+const authorController = require("./controllers/author.controller");
+const sectionController = require("./controllers/section.controller");
+const bookController = require("./controllers/book.controller");
+const checkoutController = require("./controllers/checkout.controller");
+
 const app = express();
 
 app.use(express.json());
 
-const authorController = require("./controllers/author.controller");
-
 app.use("/authors",authorController);
+
+app.use("/sections",sectionController);
+
+app.use("/books",bookController)
+
+app.use("/checkout",checkoutController)
 
 module.exports = app;

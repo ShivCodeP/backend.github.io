@@ -9,6 +9,10 @@ const sectionSchema = new mongoose.Schema({
             required: true,
         }
     ]
+},
+{
+    versionKey: false,
+    timestamps: true,
 })
 
 module.exports = mongoose.model("section",sectionSchema)
