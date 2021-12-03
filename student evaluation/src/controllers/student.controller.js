@@ -19,12 +19,12 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const students = await Student.find().populate("evaluation_id").populate("user").lean().exec();
+        const students = await Student.find().populate("evaluation_ids").populate("user").lean().exec();
 
         const students_ans = [];
 
         students.forEach((student) => {
-            student.evaluation_id.forEach((evaluation) => {
+            student.evaluation_ids.forEach((evaluation) => {
                 if(evaluation._id == req.params.id) {
                     students_ans.push(student);
                 }
