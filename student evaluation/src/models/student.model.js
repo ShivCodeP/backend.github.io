@@ -6,7 +6,7 @@ const studentSchema = new mongoose.Schema({
         ref: "user", 
         required: true,
     },
-    roll_id: { type: String, required: true },
+    roll_id: { type: Number, required: true },
     batch: { type: String, required: true },
     evaluation_id: [
         {
@@ -16,6 +16,9 @@ const studentSchema = new mongoose.Schema({
         }
     ],
     marks: { type: Number, required: true }
+},{
+    versionKey: false,
+    timestamps: true
 })
 
 module.exports = mongoose.model("student", studentSchema);

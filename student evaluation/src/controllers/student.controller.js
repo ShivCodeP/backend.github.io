@@ -15,6 +15,42 @@ router.get("/", async (req, res) => {
 
 })
 
+// find student who gave a particular evaluation
+
+router.get("/:id", async (req, res) => {
+    try {
+        const students = await Student.find().populate("evaluation_id").populate("user").lean().exec();
+
+        const students_ans = [];
+
+        students.forEach((student) => {
+            student.evaluation_id.forEach((evaluation) => {
+                if(evaluation._id == req.params.id) {
+                    students_ans.push(student);
+                }
+            })
+        })
+
+        return res.send(students_ans)
+        
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
+// highest marks
+
+router.get("/highestmarks/", async (req, res) => {
+    try {
+        const students = await Student.find({},null,{sort: {"marks": 1}}).lean().exec();
+
+       return res.send(students)
+       
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
 router.post("/", async (req, res) => {
     try {
         const student = await Student.create(req.body);

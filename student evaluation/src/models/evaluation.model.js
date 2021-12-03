@@ -8,6 +8,9 @@ const evaluationSchema = new mongoose.Schema({
         required: true,
     },
     topic_name: { type: String, required: true}
+},{
+    versionKey: false,
+    timestamps: true
 })
 
 module.exports = mongoose.model("evaluation", evaluationSchema)
