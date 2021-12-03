@@ -1,6 +1,6 @@
 const express = require("express");
 
-const evaluationController = require("./controllers/evaluaton.controller");
+const evaluationController = require("./controllers/evaluation.controller");
 
 const studentController = require("./controllers/student.controller");
 
