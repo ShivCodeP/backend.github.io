@@ -8,7 +8,7 @@ const studentSchema = new mongoose.Schema({
     },
     roll_id: { type: String, required: true },
     batch: { type: String, required: true },
-    evaluation_id: [
+    evaluation_ids: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "evaluation",
