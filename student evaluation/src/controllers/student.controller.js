@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const students = await Student.find().populate("evaluation_ids").lean().exec();
+        const students = await Student.find().populate("evaluation_ids").populate("user").lean().exec();
 
         const students_ans = [];
 
@@ -42,11 +42,9 @@ router.get("/:id", async (req, res) => {
 
 router.get("/highestmarks/", async (req, res) => {
     try {
-        const student = await Student.findOne({ field1 : 1 }).sort(last_mod, 1).run( function(err, doc) {
-            var max = doc.last_mod;
-       }).lean().exec();
+        const students = await Student.find({},null,{sort: {"marks": 1}}).lean().exec();
 
-       return res.send(student)
+       return res.send(students)
        
     } catch (e) {
         return res.status(500).json({ message: e.message, status: "Failed" });
