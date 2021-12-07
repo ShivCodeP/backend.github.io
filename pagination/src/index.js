@@ -4,8 +4,12 @@ const app = express();
 
 const userController = require("./controllers/user.controller");
 
-app.use("/users", userController)
+const adminController = require("./controllers/admin.controller");
 
 app.use(express.json());
+
+app.use("/users", userController)
+
+app.use("/admins", adminController)
 
 module.exports = app;

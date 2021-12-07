@@ -5,6 +5,16 @@ const fs = require("fs");
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+    try {
+        const users = await User.find().lean().exec();
+
+        return res.send({ users });
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
 router.post("/", upload.single("Image"), async (req, res) => {
     try {
         const user = await User.create(
@@ -23,19 +33,20 @@ router.post("/", upload.single("Image"), async (req, res) => {
 
 router.patch("/:id", upload.single("Image"), async (req, res) => {
     try {
-        const { profile_pic } = await User.findById(req.params.id).lean().exec();
-        const path = profile_pic;
+        const user_del = await User.findById(req.params.id).lean().exec();
+        const path = user_del.profile_pic;
+        console.log(req.file.path)
 
         fs.unlink(path, (err) => {
             if (err) {
                 console.error(err)
-                return
+                return;
             }
 
             //file removed
         });
 
-        const user = await User.updateOne(req.params.id, { $set: { profile_pic: req.file.path } }, { new: true })
+        const user = await User.findByIdAndUpdate(req.params.id, { $set: { profile_pic: req.file.path } }, { new: true })
 
         return res.status(201).json({ user })
 
