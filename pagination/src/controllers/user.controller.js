@@ -8,19 +8,29 @@ const sendMail = require("../utils/send-mail");
 
 const router = express.Router();
 
-router.post("/register", async (req, res) => {
+router.post("/",async (req, res) => {
     try {
         const user = await User.create(req.body);
+
+        return res.status(201).send(user);
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
+router.post("/register/:id", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id);
 
         sendMail(
             "server@user.com",
             user.email,
             `Welcome to ABC system ${user.first_name} ${user.last_name}`,
-            `Hi ${first_name}, Please confirm your email address `,
+            `Hi ${user.first_name}, Please confirm your email address `,
             "<h1>Hi, Please confirm your email address</h1>"
         )
 
-        const admins = await Admin.find().populate("user_ids").lean().exec();
+        const admins = await Admin.findOne().populate("user_ids").lean().exec();
 
         admins.user_ids.forEach((admin) => {
             

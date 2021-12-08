@@ -5,7 +5,17 @@ const fs = require('fs')
 
 const router = express.Router();
 
-router.post("/", upload.array("Image"), async (req, res) => {
+router.get("/", async (req, res) => {
+    try {
+        const galleries = await Gallery.find().populate("user_id").lean().exec();
+
+        return res.send({ galleries })
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" });
+    }
+})
+
+router.post("/", upload.array("Images"), async (req, res) => {
     try {
         const files = req.files.map(file => file.path);
 
@@ -48,11 +58,34 @@ router.patch("/:id", async (req, res) => {
             });
         });
 
-        const ans = await Gallery.updateOne(req.params.id, { $set: { pictures: photos } },{new: true});
+        const ans = await Gallery.updateOne(req.params.id, { $set: { pictures: photos } }, { new: true });
 
-        return res.status(201).send({gallery: ans});
-    } catch(e) {
-        return res.status(500).json({message: e.message, status: "Failed"})
+        return res.status(201).send({ gallery: ans });
+    } catch (e) {
+        return res.status(500).json({ message: e.message, status: "Failed" })
+    }
+})
+
+router.delete("/:id", async (req, res) => {
+    try {
+        const gallery_del = await Gallery.findById(req.params.id).lean().exec();
+        console.log(gallery_del)
+        gallery_del.pictures.forEach((path) => {
+            fs.unlink(path, (err) => {
+                if (err) {
+                    console.error(err)
+                    return
+                }
+
+                //file removed
+            });
+        });
+        
+        const gallery = await Gallery.findByIdAndDelete(req.params.id);
+
+        return res.status(201).send("Deleted Successfully")
+    } catch (e) {
+        return res.status(500).json({ status: "Failed", message: e.message })
     }
 })
 
