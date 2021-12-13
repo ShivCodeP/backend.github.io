@@ -26,7 +26,8 @@ router.post("/", async (req, res) => {
 
 router.get("/:id", async (req, res) => {
     try {
-        const seat = await Seat.findById(req.params.id).lean().exec();
+        console.log(req.params.id)
+        const seat = await Seat.findOne({show: {$eq: req.params.id}}).lean().exec();
 
         return res.send({available : seat.available});
 
