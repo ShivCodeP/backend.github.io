@@ -4,6 +4,16 @@ const Show = require("../models/show.model");
 
 const router = express.Router();
 
+router.post("/", async (req, res) => {
+    try {
+        const show = await Show.create(req.body);
+
+        return res.status(201).json({ show })
+    } catch (e) {
+        return res.status(500).json({ status: "Failed", message: e.message });
+    }
+})
+
 router.get("/", async (req, res) => {
 
     try {

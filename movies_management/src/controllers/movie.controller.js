@@ -19,13 +19,19 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const actor = req.query.actor;
+        
+        if (!actor) {
+            const movies = await Movie.find().lean().exec();
+
+            return res.send({ movies })
+        }
 
         const movies = await Movie.find().lean().exec();
         const ans = [];
 
         movies.forEach((movie) => {
             movie.actors.forEach((ac) => {
-                if(ac == actor) {
+                if (ac == actor) {
 
                     ans.push(ac);
 
@@ -34,9 +40,9 @@ router.get("/", async (req, res) => {
         })
 
         return res.send({ ans });
-        
+
     } catch (e) {
-        return  res.status(500).json({ status: "Failed", message: e.message });
+        return res.status(500).json({ status: "Failed", message: e.message });
     }
 })
 

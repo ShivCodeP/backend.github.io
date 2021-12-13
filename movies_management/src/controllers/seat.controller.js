@@ -4,6 +4,26 @@ const Seat = require("../models/seat.model");
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+    try {
+        const seats = await Seat.find().lean().exec();
+
+        return res.send({ seats })
+    } catch (e) {
+        return res.status(500).json({ status: "Failed", message: e.message });
+    }
+})
+
+router.post("/", async (req, res) => {
+    try {
+        const seat = await Seat.create(req.body);
+
+        return res.status(201).json({ seat })
+    } catch (e) {
+        return res.status(500).json({ status: "Failed", message: e.message });
+    }
+})
+
 router.get("/:id", async (req, res) => {
     try {
         const seat = await Seat.findById(req.params.id).lean().exec();
@@ -15,7 +35,7 @@ router.get("/:id", async (req, res) => {
     }
 })
 
-router.post("/:id", async (req, res) => {
+router.patch("/:id", async (req, res) => {
     try {
         const seat_require = req.query.seat;
 
