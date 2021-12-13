@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const mongoose = require("mongoose");
 
@@ -9,7 +10,7 @@ const mongoose = require("mongoose");
 
 // Step 1
 const connect = () => {
-  return mongoose.connect("mongodb+srv://naukri:naukri@cluster0.u9tan.mongodb.net/movies_data?retryWrites=true&w=majority",{
+  return mongoose.connect(`mongodb+srv://naukri:${process.env.MONGODB_PASS}@cluster0.u9tan.mongodb.net/movies_data?retryWrites=true&w=majority`,{
 
     useCreateIndex: true,
     useNewUrlParser: true, 

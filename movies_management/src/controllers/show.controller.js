@@ -49,9 +49,10 @@ router.get("/:id", async (req, res) => {
 
 })
 
-router.get("/nearest/", async (req, res) => {
+router.get("/nearest/location", async (req, res) => {
     try {
         const loc_find = req.query.location;
+        console.log(";lfj")
     
         const shows = await Show.find().lean().populate("screen").populate("theatre").exec();
         const ans = [];

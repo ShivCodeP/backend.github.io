@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
 router.get("/", async (req, res) => {
     try {
         const actor = req.query.actor;
-        
+
         if (!actor) {
             const movies = await Movie.find().lean().exec();
 
@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
             movie.actors.forEach((ac) => {
                 if (ac == actor) {
 
-                    ans.push(ac);
+                    ans.push(movie);
 
                 }
             })
