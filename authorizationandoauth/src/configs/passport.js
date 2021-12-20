@@ -11,7 +11,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://localhost:2345/auth/google/callback",
+      callbackURL: "http://localhost:2000/auth/google/callback",
       userProfileURL: "https://**www**.googleapis.com/oauth2/v3/userinfo",
       passReqToCallback: true,
     },
@@ -20,12 +20,15 @@ passport.use(
         .lean()
         .exec();
 
+        
       if (!user) {
         user = await User.create({
+          name: profile?._json?.name,
           email: profile?._json?.email,
           password: uuid(),
         });
       }
+      console.log(user)
       const token = newToken(user);
       return done(null, { user, token });
     }
