@@ -10,7 +10,7 @@ const router = express.Router();
 router.post(
   "/",
   authenticate,
-  // authorise(["seller", "admin"]),
+  authorise(["seller", "admin"]),
   async (req, res) => {
     try {
       const user = req.user;
